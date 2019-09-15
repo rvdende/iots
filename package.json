@@ -1,0 +1,33 @@
+{
+  "name": "iots",
+  "version": "1.0.0",
+  "description": "IoT done with Typescript",
+  "main": "index.js",
+  "scripts": {
+    "list": "./node_modules/espruino/bin/espruino-cli.js --list",
+    "flash" : "./node_modules/espruino/bin/espruino-cli.js -b 115200 --board ESP32 -p /dev/ttyUSB0 -w build/main.js",
+    "build" : "tsc ./src/main.ts --removeComments --outDir ./build",
+    "watch": "tsc --w ./src/main.ts --removeComments --outDir ./build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "firmware" : "cd espruino && esptool.py --chip esp32 --port \"/dev/ttyUSB0\" --baud 921600 write_flash -z --flash_mode \"dio\" --flash_freq \"40m\" 0x1000 bootloader.bin 0x10000 espruino_esp32.bin 0x8000 partitions_espruino.bin",
+    "deploy" : "npm run build && npm run prep && npm run flash",
+    "prep" : "node prep.js",
+    "dev" : "npm run firmware && npm run deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rvdende/iots.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rvdende/iots/issues"
+  },
+  "homepage": "https://github.com/rvdende/iots#readme",
+  "dependencies": {
+    "@types/espruino": "^1.94.3",
+    "@types/node": "^12.7.5",
+    "espruino": "^0.1.29"
+  }
+}
